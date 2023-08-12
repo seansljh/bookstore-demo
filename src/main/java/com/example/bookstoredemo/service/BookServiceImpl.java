@@ -112,11 +112,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findByAuthor(String author){
+        logger.info(String.format("Querying books written by %s", author));
         return bookRepository.findByAuthor(author);
     }
 
     @Override
     public List<Book> findByTitle(String title) {
+        logger.info(String.format("Querying books with title %s", title));
         return bookRepository.findByTitle(title);
     }
 }
