@@ -4,9 +4,11 @@ import com.example.bookstoredemo.entities.Book;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public interface BookService {
+
     Book addBook (Book book);
 
     List<Book> fetchAllBooks();
