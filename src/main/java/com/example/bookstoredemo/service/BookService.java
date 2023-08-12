@@ -18,4 +18,8 @@ public interface BookService {
     Object getBookStockById(Long book_isbn);
 
     String removeBook(Long book_isbn);
+
+    List<Book> findByAuthor(String author);
+
+    List<Book> findByTitle(String title);
 }
