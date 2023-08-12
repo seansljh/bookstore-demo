@@ -18,14 +18,24 @@ public class BookController {
         return bookService.addBook(book);
     }
 
-    @GetMapping("/book")
+    @GetMapping("/query/all")
     public List<Book> fetchAllBooks() {
         return bookService.fetchAllBooks();
     }
 
-    @GetMapping("/book/{book_isbn}")
-    public Book getBookById(@PathVariable("book_isbn") Long book_isbn) {
+    @GetMapping("/query/isbn")
+    public Book getBookById(@RequestParam("isbn") Long book_isbn) {
         return bookService.getBookById(book_isbn);
+    }
+
+    @GetMapping("/query/author")
+    public List<Book> getBookByAuthor(@RequestParam("author") String author) {
+        return bookService.findByAuthor(author);
+    }
+
+    @GetMapping("/query/title")
+    public List<Book> getBookByTitle(@RequestParam("title") String title) {
+        return bookService.findByTitle(title);
     }
 
     @PutMapping("/update/{book_isbn}")

@@ -9,11 +9,11 @@ import jakarta.persistence.Id;
 public class Book {
 
     public String getBook_title() {
-        return book_title;
+        return title;
     }
 
     public void setBook_title(String book_title) {
-        this.book_title = book_title;
+        this.title = book_title;
     }
 
     public String getAuthor() {
@@ -52,8 +52,8 @@ public class Book {
 
     }
 
-    public Book(String book_title, String author, Long isbn, Double price, int stock) {
-        this.book_title = book_title;
+    public Book(String title, String author, Long isbn, Double price, int stock) {
+        this.title = title;
         this.author = author;
         this.isbn = isbn;
         this.price = price;
@@ -63,7 +63,7 @@ public class Book {
     @Id
     private long isbn;
 
-    private String book_title;
+    private String title;
 
     private String author;
 
@@ -75,7 +75,7 @@ public class Book {
     public String toString() {
         return "Book{" +
                 "isbn='" + isbn + '\'' +
-                ", book_title='" + book_title + '\'' +
+                ", book_title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", price='" + price + '\'' +
                 ", stock='" + stock + '\'' +

@@ -1,5 +1,6 @@
 package com.example.bookstoredemo.service;
 
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 public class BookServiceImpl implements BookService {
     private final Logger logger;
 
@@ -106,5 +108,15 @@ public class BookServiceImpl implements BookService {
                     "No book found in inventory for given isbn"
             );
         }
+    }
+
+    @Override
+    public List<Book> findByAuthor(String author){
+        return bookRepository.findByAuthor(author);
+    }
+
+    @Override
+    public List<Book> findByTitle(String title) {
+        return bookRepository.findByTitle(title);
     }
 }
