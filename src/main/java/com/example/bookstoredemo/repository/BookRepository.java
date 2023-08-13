@@ -1,27 +1,28 @@
 package com.example.bookstoredemo.repository;
 
 import com.example.bookstoredemo.entities.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    List<Book> findByAuthor(String author);
 
-    List<Book> findByTitle(String title);
+    Page<Book> findByAuthor(String author, Pageable page);
 
-    List<Book> findByPriceBetween(Double min, Double max);
+    Page<Book> findByTitle(String title, Pageable page);
 
-    List<Book> findByPriceLessThanEqual(Double ceiling);
+    Page<Book> findByPriceBetween(Double min, Double max, Pageable page);
 
-    List<Book> findByPriceGreaterThanEqual(Double floor);
+    Page<Book> findByPriceLessThanEqual(Double ceiling, Pageable page);
 
-    List<Book> findByStockGreaterThanEqual(int floor);
+    Page<Book> findByPriceGreaterThanEqual(Double floor, Pageable page);
 
-    List<Book> findByStockLessThanEqual(int ceiling);
+    Page<Book> findByStockGreaterThanEqual(int floor, Pageable page);
 
-    List<Book> findByStockBetween(int min, int max);
+    Page<Book> findByStockLessThanEqual(int ceiling, Pageable page);
+
+    Page<Book> findByStockBetween(int min, int max, Pageable page);
 
 }

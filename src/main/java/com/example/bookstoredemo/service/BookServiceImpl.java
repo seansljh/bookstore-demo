@@ -3,6 +3,8 @@ package com.example.bookstoredemo.service;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.example.bookstoredemo.entities.Book;
@@ -33,9 +35,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> fetchAllBooks() {
+    public Page<Book> fetchAllBooks(Pageable page) {
         logger.info("Fetching all books in the Inventory");
-        return bookRepository.findAll(); // need to do a query on stock
+        return bookRepository.findAll(page);
     }
     @Override
     public Book getBookById(Long isbn) {
@@ -111,49 +113,49 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findByAuthor(String author){
+    public Page<Book> findByAuthor(String author, Pageable page){
         logger.info(String.format("Querying books written by %s", author));
-        return bookRepository.findByAuthor(author);
+        return bookRepository.findByAuthor(author, page);
     }
 
     @Override
-    public List<Book> findByTitle(String title) {
+    public Page<Book> findByTitle(String title, Pageable page) {
         logger.info(String.format("Querying books with title %s", title));
-        return bookRepository.findByTitle(title);
+        return bookRepository.findByTitle(title, page);
     }
     @Override
-    public List<Book> findByPriceBetween(Double min, Double max){
+    public Page<Book> findByPriceBetween(Double min, Double max, Pageable page){
         logger.info(String.format("Querying books with prices between %s and %s", min, max));
-        return bookRepository.findByPriceBetween(min, max);
+        return bookRepository.findByPriceBetween(min, max, page);
     }
 
     @Override
-    public List<Book> findByPriceLessThanEqual(Double ceiling){
+    public Page<Book> findByPriceLessThanEqual(Double ceiling, Pageable page){
         logger.info(String.format("Querying books with prices less than %s", ceiling));
-        return bookRepository.findByPriceLessThanEqual(ceiling);
+        return bookRepository.findByPriceLessThanEqual(ceiling, page);
     }
 
     @Override
-    public List<Book> findByPriceGreaterThanEqual(Double floor){
+    public Page<Book> findByPriceGreaterThanEqual(Double floor, Pageable page){
         logger.info(String.format("Querying books with prices more than %s", floor));
-        return bookRepository.findByPriceGreaterThanEqual(floor);
+        return bookRepository.findByPriceGreaterThanEqual(floor, page);
     }
 
     @Override
-    public List<Book> findByStockGreaterThanEqual(int floor){
+    public Page<Book> findByStockGreaterThanEqual(int floor, Pageable page){
         logger.info(String.format("Querying books with stock more than %s", floor));
-        return bookRepository.findByStockGreaterThanEqual(floor);
+        return bookRepository.findByStockGreaterThanEqual(floor, page);
     }
 
     @Override
-    public List<Book> findByStockLessThanEqual(int ceiling){
+    public Page<Book> findByStockLessThanEqual(int ceiling, Pageable page){
         logger.info(String.format("Querying books with stock less than %s", ceiling));
-        return bookRepository.findByStockLessThanEqual(ceiling);
+        return bookRepository.findByStockLessThanEqual(ceiling, page);
     }
 
     @Override
-    public List<Book> findByStockBetween(int min, int max){
+    public Page<Book> findByStockBetween(int min, int max, Pageable page){
         logger.info(String.format("Querying books with stock between %s and %s", min, max));
-        return bookRepository.findByStockBetween(min, max);
+        return bookRepository.findByStockBetween(min, max, page);
     }
 }
