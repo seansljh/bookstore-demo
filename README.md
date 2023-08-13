@@ -69,28 +69,27 @@ This web service supports various functions, as specified below.
          "stock": 51
          }
        ```
-<br/><br/> 
 2. Retrieve all books in the inventory
-    - **GET** http://localhost:8080/search/all
-    - Pagination is supported; parameters such as `page` and `size` can be used in the request parameters to control the size of the result set
+- **GET** http://localhost:8080/search/all
+- Pagination is supported; parameters such as `page` and `size` can be used in the request parameters to control the size of the result set
 <br/><br/>
 3. Search books by isbn/author/title
-    - **GET** http://localhost:8080/search/isbn,author,title, e.g http://localhost:8080/search/isbn
-    - Add search term as a request parameter
+- **GET** http://localhost:8080/search/isbn,author,title, e.g http://localhost:8080/search/isbn
+- Add search term as a request parameter
 <br/><br/>
 4. Query books by stock, price 
-    - **GET** http://localhost:8080/filter/column, e.g http://localhost:8080/search/stock
-    - Add min, max as search parameters 
-    - If min and max are supplied, we do a between query
-    - Else if only min is supplied, we find all books that have values higher than min; and vice versa for max
+- **GET** http://localhost:8080/filter/column, e.g http://localhost:8080/search/stock
+- Add min, max as search parameters 
+- If min and max are supplied, we do a between query
+- Else if only min is supplied, we find all books that have values higher than min; and vice versa for max
 <br/><br/>
 5. Get the stock of a particular book
-    - **GET** http://localhost:8080/search/{book_isbn}/stock
-    - E.g. GET http://localhost:8080/search/12344555/stock
+- **GET** http://localhost:8080/search/{book_isbn}/stock
+- E.g. GET http://localhost:8080/search/12344555/stock
 <br/><br/>
 6. Update the stock of a particular book
-    - **PUT** http://localhost:8080/update/{book_isbn}
-    - Add new stock in request parameters, this input is validated to ensure it is not negative  
+- **PUT** http://localhost:8080/update/{book_isbn}
+- Add new stock in request parameters, this input is validated to ensure it is not negative  
 <br/><br/>
 7. Delete a book from the inventory
-    - **DELETE** http://localhost:8080/book/{book_isbn}
+- **DELETE** http://localhost:8080/book/{book_isbn}
