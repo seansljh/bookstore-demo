@@ -38,21 +38,21 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll(); // need to do a query on stock
     }
     @Override
-    public Book getBookById(Long book_isbn) {
-        logger.info(String.format("Querying DB for book_isbn %s", book_isbn));
-        Optional<Book> book = bookRepository.findById(book_isbn);
+    public Book getBookById(Long isbn) {
+        logger.info(String.format("Querying DB for book_isbn %s", isbn));
+        Optional<Book> book = bookRepository.findById(isbn);
         if (book.isPresent()) {
-            logger.info(String.format("Book with book_isbn %s retrieved successfully", book_isbn));
+            logger.info(String.format("Book with book_isbn %s retrieved successfully", isbn));
             return book.get();
         }
-        logger.error(String.format("No book found in inventory for book_isbn %s", book_isbn));
+        logger.error(String.format("No book found in inventory for book_isbn %s", isbn));
         throw new ResponseStatusException(
                 HttpStatus.NOT_FOUND,
                 "No book found in inventory for given isbn"
         );
     }
     @Override
-    public Book updateBookStockById(Long book_isbn, int stock) {
+    public Book updateBookStockById(Long isbn, int stock) {
         if (stock < 0) {
             logger.info(String.format("Stock is negative %s, abort update", stock));
             throw new ResponseStatusException(
@@ -60,17 +60,17 @@ public class BookServiceImpl implements BookService {
                     "Given stock number is negative!"
             );
         }
-        logger.info(String.format("Attempting to update the stock of %s to %s", book_isbn, stock));
-        Optional<Book> book1 = bookRepository.findById(book_isbn);
+        logger.info(String.format("Attempting to update the stock of %s to %s", isbn, stock));
+        Optional<Book> book1 = bookRepository.findById(isbn);
         if (book1.isPresent()) {
-            logger.info(String.format("Book with book_isbn %s retrieved successfully", book_isbn));
+            logger.info(String.format("Book with book_isbn %s retrieved successfully", isbn));
             Book curBook = book1.get();
 
             logger.info(String.format("Attempting to update stock to %s", stock));
             curBook.setStock(stock);
             return bookRepository.save(curBook);
         } else {
-            logger.error(String.format("No book found in inventory for book_isbn %s", book_isbn));
+            logger.error(String.format("No book found in inventory for book_isbn %s", isbn));
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "No book found in inventory for given isbn"
@@ -79,15 +79,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Integer getBookStockById(Long book_isbn) {
-        logger.info(String.format("Attempting to get the stock of %s", book_isbn));
-        Optional<Book> book1 = bookRepository.findById(book_isbn);
+    public Integer getBookStockById(Long isbn) {
+        logger.info(String.format("Attempting to get the stock of %s", isbn));
+        Optional<Book> book1 = bookRepository.findById(isbn);
         if (book1.isPresent()) {
-            logger.info(String.format("Book with book_isbn %s retrieved successfully", book_isbn));
+            logger.info(String.format("Book with book_isbn %s retrieved successfully", isbn));
             Book curBook = book1.get();
             return curBook.getStock();
         } else {
-            logger.error(String.format("No book found in inventory for book_isbn %s", book_isbn));
+            logger.error(String.format("No book found in inventory for book_isbn %s", isbn));
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "No book found in inventory for given isbn"
@@ -96,13 +96,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public String removeBook(Long book_isbn) {
-        if (bookRepository.findById(book_isbn).isPresent()) {
-            logger.info(String.format("Attempting to delete %s", book_isbn));
-            bookRepository.deleteById(book_isbn);
+    public String removeBook(Long isbn) {
+        if (bookRepository.findById(isbn).isPresent()) {
+            logger.info(String.format("Attempting to delete %s", isbn));
+            bookRepository.deleteById(isbn);
             return "Book deleted successfully";
         } else {
-            logger.error(String.format("No book found in inventory for book_isbn %s", book_isbn));
+            logger.error(String.format("No book found in inventory for book_isbn %s", isbn));
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "No book found in inventory for given isbn"
@@ -120,5 +120,40 @@ public class BookServiceImpl implements BookService {
     public List<Book> findByTitle(String title) {
         logger.info(String.format("Querying books with title %s", title));
         return bookRepository.findByTitle(title);
+    }
+    @Override
+    public List<Book> findByPriceBetween(Double min, Double max){
+        logger.info(String.format("Querying books with prices between %s and %s", min, max));
+        return bookRepository.findByPriceBetween(min, max);
+    }
+
+    @Override
+    public List<Book> findByPriceLessThanEqual(Double ceiling){
+        logger.info(String.format("Querying books with prices less than %s", ceiling));
+        return bookRepository.findByPriceLessThanEqual(ceiling);
+    }
+
+    @Override
+    public List<Book> findByPriceGreaterThanEqual(Double floor){
+        logger.info(String.format("Querying books with prices more than %s", floor));
+        return bookRepository.findByPriceGreaterThanEqual(floor);
+    }
+
+    @Override
+    public List<Book> findByStockGreaterThanEqual(int floor){
+        logger.info(String.format("Querying books with stock more than %s", floor));
+        return bookRepository.findByStockGreaterThanEqual(floor);
+    }
+
+    @Override
+    public List<Book> findByStockLessThanEqual(int ceiling){
+        logger.info(String.format("Querying books with stock less than %s", ceiling));
+        return bookRepository.findByStockLessThanEqual(ceiling);
+    }
+
+    @Override
+    public List<Book> findByStockBetween(int min, int max){
+        logger.info(String.format("Querying books with stock between %s and %s", min, max));
+        return bookRepository.findByStockBetween(min, max);
     }
 }
