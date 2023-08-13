@@ -43,7 +43,7 @@ public class BookController {
         return bookService.findByTitle(title, paged);
     }
 
-    @GetMapping("/search/stock")
+    @GetMapping("/filter/stock")
     public Page<Book> getBookByStock(@RequestParam("min") Optional<Integer> min, @RequestParam("max") Optional<Integer> max, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         Pageable paged = PageRequest.of(page, size);
         if (min.isPresent() && max.isPresent()) {
@@ -56,7 +56,7 @@ public class BookController {
         return null;
     }
 
-    @GetMapping("/search/price")
+    @GetMapping("/filter/price")
     public Page<Book> getBookByPrice(@RequestParam("min") Optional<Double> min, @RequestParam("max") Optional<Double> max, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         Pageable paged = PageRequest.of(page, size);
         if (min.isPresent() && max.isPresent()) {
