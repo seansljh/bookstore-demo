@@ -1,6 +1,8 @@
 package com.example.bookstoredemo.service;
 
 import com.example.bookstoredemo.entities.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +13,7 @@ public interface BookService {
 
     Book addBook (Book book);
 
-    List<Book> fetchAllBooks();
+    Page<Book> fetchAllBooks(Pageable page);
 
     Book getBookById(Long book_isbn);
 
@@ -21,19 +23,19 @@ public interface BookService {
 
     String removeBook(Long book_isbn);
 
-    List<Book> findByAuthor(String author);
+    Page<Book> findByAuthor(String author, Pageable page);
 
-    List<Book> findByTitle(String title);
+    Page<Book> findByTitle(String title, Pageable page);
 
-    List<Book> findByPriceBetween(Double min, Double max);
+    Page<Book> findByPriceBetween(Double min, Double max, Pageable page);
 
-    List<Book> findByPriceLessThanEqual(Double ceiling);
+    Page<Book> findByPriceLessThanEqual(Double ceiling, Pageable page);
 
-    List<Book> findByPriceGreaterThanEqual(Double floor);
+    Page<Book> findByPriceGreaterThanEqual(Double floor, Pageable page);
 
-    List<Book> findByStockGreaterThanEqual(int floor);
+    Page<Book> findByStockGreaterThanEqual(int floor, Pageable page);
 
-    List<Book> findByStockLessThanEqual(int floor);
+    Page<Book> findByStockLessThanEqual(int floor, Pageable page);
 
-    List<Book> findByStockBetween(int min, int max);
+    Page<Book> findByStockBetween(int min, int max, Pageable page);
 }

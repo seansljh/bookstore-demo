@@ -3,9 +3,11 @@ package com.example.bookstoredemo.controller;
 import com.example.bookstoredemo.entities.Book;
 import com.example.bookstoredemo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -20,8 +22,8 @@ public class BookController {
     }
 
     @GetMapping("/search/all")
-    public List<Book> fetchAllBooks() {
-        return bookService.fetchAllBooks();
+    public Page<Book> fetchAllBooks(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return bookService.fetchAllBooks(PageRequest.of(page,size));
     }
 
     @GetMapping("/search/isbn")
@@ -30,35 +32,39 @@ public class BookController {
     }
 
     @GetMapping("/search/author")
-    public List<Book> getBookByAuthor(@RequestParam("author") String author) {
-        return bookService.findByAuthor(author);
+    public Page<Book> getBookByAuthor(@RequestParam("author") String author, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable paged = PageRequest.of(page, size);
+        return bookService.findByAuthor(author, paged);
     }
 
     @GetMapping("/search/title")
-    public List<Book> getBookByTitle(@RequestParam("title") String title) {
-        return bookService.findByTitle(title);
+    public Page<Book> getBookByTitle(@RequestParam("title") String title, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable paged = PageRequest.of(page, size);
+        return bookService.findByTitle(title, paged);
     }
 
     @GetMapping("/search/stock")
-    public Object getBookByStock(@RequestParam("min") Optional<Integer> min, @RequestParam("max") Optional<Integer> max) {
+    public Page<Book> getBookByStock(@RequestParam("min") Optional<Integer> min, @RequestParam("max") Optional<Integer> max, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable paged = PageRequest.of(page, size);
         if (min.isPresent() && max.isPresent()) {
-            return bookService.findByStockBetween(min.get(), max.get());
+            return bookService.findByStockBetween(min.get(), max.get(), paged);
         } else if (min.isPresent()) {
-            return bookService.findByStockGreaterThanEqual(min.get());
+            return bookService.findByStockGreaterThanEqual(min.get(), paged);
         } else if (max.isPresent()) {
-            return bookService.findByStockLessThanEqual(max.get());
+            return bookService.findByStockLessThanEqual(max.get(), paged);
         }
         return null;
     }
 
     @GetMapping("/search/price")
-    public Object getBookByPrice(@RequestParam("min") Optional<Double> min, @RequestParam("max") Optional<Double> max) {
+    public Page<Book> getBookByPrice(@RequestParam("min") Optional<Double> min, @RequestParam("max") Optional<Double> max, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable paged = PageRequest.of(page, size);
         if (min.isPresent() && max.isPresent()) {
-            return bookService.findByPriceBetween(min.get(), max.get());
+            return bookService.findByPriceBetween(min.get(), max.get(), paged);
         } else if (min.isPresent()) {
-            return bookService.findByPriceGreaterThanEqual(min.get());
+            return bookService.findByPriceGreaterThanEqual(min.get(), paged);
         } else if (max.isPresent()) {
-            return bookService.findByPriceLessThanEqual(max.get());
+            return bookService.findByPriceLessThanEqual(max.get(), paged);
         }
         return null;
     }
